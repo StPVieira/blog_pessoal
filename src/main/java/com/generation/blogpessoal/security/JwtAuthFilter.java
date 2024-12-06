@@ -49,13 +49,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 				if (jwtService.validateToken(token, userDetails)) {
 					UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails,
 							null, userDetails.getAuthorities());
-
 					authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 					SecurityContextHolder.getContext().setAuthentication(authToken);
 				}
-			}
 
+			}
 			filterChain.doFilter(request, response);
+
 		} catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException
 				| ResponseStatusException e) {
 			response.setStatus(HttpStatus.FORBIDDEN.value());
